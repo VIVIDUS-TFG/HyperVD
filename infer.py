@@ -3,7 +3,7 @@ import torch
 import numpy as np
 from model import Model
 from dataset import Dataset
-from test import test
+from test import test_single_video
 import option
 import time
 import os
@@ -23,11 +23,9 @@ if __name__ == '__main__':
     model = model.to(args.device)
     model_dict = model.load_state_dict(
         {k.replace('module.', ''): v for k, v in torch.load('./ckpt/pretrained.pkl', map_location=torch.device('cpu')).items()})
-    gt = np.load(args.gt)
     st = time.time()
 
-    pr_auc, online_ap  = test(test_loader, model, gt, args)
+    mesagge, message_frames  = test_single_video(test_loader, model, args)
     time_elapsed = time.time() - st
-    # print('test AP: {:.4f}\n'.format(pr_auc))
-    print('Random initialized AP: {:.4f}   on_line AP:  {:.4f} \n'.format(pr_auc, online_ap))
+    print(' {}. {} \n'.format( mesagge, message_frames))
     print('Test complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
