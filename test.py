@@ -38,7 +38,7 @@ def test_single_video(dataloader, model, args):
             pred = torch.cat((pred, sig))
 
         pred = list(pred.cpu().detach().numpy())
-        pred_binary = [1 if pred_value[0] > 0.5 else 0 for pred_value in pred]
+        pred_binary = [1 if pred_value[0] > 0.45 else 0 for pred_value in pred]
 
         if any(pred == 1 for pred in pred_binary):
             message= "El video contiene violencia"
