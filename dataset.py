@@ -61,22 +61,42 @@ class Dataset(data.Dataset):
             features2 = np.array(np.load(self.flow_list[index].strip('\n')), dtype=np.float32)
             if features1.shape[0] == features2.shape[0]:
                 features = np.concatenate((features1, features2),axis=1)
-            else:# because the frames of flow is one less than that of rgb
-                features = np.concatenate((features1[:-1], features2), axis=1)
+            else:
+                max_dimension = max(features1.shape[0], features2.shape[0])
+
+                if features1.shape[0] < features2.shape[0]:
+                    features1 = np.pad(features1, ((0, max_dimension - features1.shape[0]), (0, 0)), mode='constant', constant_values=0)
+                if features2.shape[0] < features1.shape[0]:
+                    features2 = np.pad(features2, ((0, max_dimension - features2.shape[0]), (0, 0)), mode='constant', constant_values=0)
+                features = np.concatenate((features1, features2),axis=1)
         elif self.modality == 'MIX2':
             features1 = np.array(np.load(self.list[index].strip('\n')), dtype=np.float32)
             features2 = np.array(np.load(self.audio_list[index//5].strip('\n')), dtype=np.float32)
+
             if features1.shape[0] == features2.shape[0]:
                 features = np.concatenate((features1, features2),axis=1)
-            else:# because the frames of flow is one less than that of rgb
-                features = np.concatenate((features1[:-1], features2), axis=1)
+            else:
+                max_dimension = max(features1.shape[0], features2.shape[0])
+
+                if features1.shape[0] < features2.shape[0]:
+                    features1 = np.pad(features1, ((0, max_dimension - features1.shape[0]), (0, 0)), mode='constant', constant_values=0)
+                if features2.shape[0] < features1.shape[0]:
+                    features2 = np.pad(features2, ((0, max_dimension - features2.shape[0]), (0, 0)), mode='constant', constant_values=0)
+                features = np.concatenate((features1, features2),axis=1)
+
         elif self.modality == 'MIX3':
             features1 = np.array(np.load(self.list[index].strip('\n')), dtype=np.float32)
             features2 = np.array(np.load(self.audio_list[index//5].strip('\n')), dtype=np.float32)
             if features1.shape[0] == features2.shape[0]:
                 features = np.concatenate((features1, features2),axis=1)
-            else:# because the frames of flow is one less than that of rgb
-                features = np.concatenate((features1[:-1], features2), axis=1)
+            else:
+                max_dimension = max(features1.shape[0], features2.shape[0])
+
+                if features1.shape[0] < features2.shape[0]:
+                    features1 = np.pad(features1, ((0, max_dimension - features1.shape[0]), (0, 0)), mode='constant', constant_values=0)
+                if features2.shape[0] < features1.shape[0]:
+                    features2 = np.pad(features2, ((0, max_dimension - features2.shape[0]), (0, 0)), mode='constant', constant_values=0)
+                features = np.concatenate((features1, features2),axis=1)
         elif self.modality == 'MIX_ALL':
             features1 = np.array(np.load(self.list[index].strip('\n')), dtype=np.float32)
             features2 = np.array(np.load(self.flow_list[index].strip('\n')), dtype=np.float32)
