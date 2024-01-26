@@ -41,7 +41,7 @@ def test_single_video(dataloader, model, args):
         pred_binary = [1 if pred_value[0] > 0.45 else 0 for pred_value in pred]
 
         if any(pred == 1 for pred in pred_binary):
-            message= "El video contiene violencia"
+            message= "El video contiene violencia. "
             message_frames = "En un rango de [0-"+ str(len(pred_binary) - 1) +"], los frames con violencia son: "
 
             start_idx = None
@@ -59,7 +59,7 @@ def test_single_video(dataloader, model, args):
                 message_frames = message_frames[:-2]              
 
         else:
-            message= "El video no contiene violencia"
+            message= "El video no contiene violencia. "
             message_frames = "No hay frames con violencia"            
 
         return message, message_frames

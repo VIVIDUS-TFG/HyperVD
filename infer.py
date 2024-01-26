@@ -10,7 +10,7 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
-if __name__ == '__main__':
+def test():
     print('perform testing...')
     args = option.parser.parse_args()
     args.device = 'cuda:' + str(args.cuda) if torch.cuda.is_available() else 'cpu'
@@ -27,5 +27,9 @@ if __name__ == '__main__':
 
     message, message_frames  = test_single_video(test_loader, model, args)
     time_elapsed = time.time() - st
-    print(' {}. {} \n'.format( message, message_frames))
+    print(message + message_frames)
     print('Test complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
+
+    return message + message_frames
+if __name__ == '__main__':
+    test()
