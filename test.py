@@ -72,16 +72,15 @@ def test_single_video(dataloader, model, args):
         # Create a list of dictionaries to store the data
         data = []
         data.append({
-            'video_name': "NOMBREVIDEO",
-            'pred_binary': pred_binary,
-            'message_frames': message + message_frames,
-            'message_second': message + message_second
+            'video_id': "IDVIDEO",
+            'frame_number': pred_binary,
+            "violence_label": "1" if any(pred == 1 for pred in pred_binary) else "0",
         })
 
         # Write the data to a CSV file
         csv_file = 'inference.csv'
 
-        fieldnames = ['video_name', 'pred_binary', 'message_frames', 'message_second']
+        fieldnames = ['video_id', 'frame_number', 'violence_label']
         with open(csv_file, 'w', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()

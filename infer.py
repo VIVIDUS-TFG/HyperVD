@@ -27,7 +27,8 @@ def test():
 
     message, message_second, message_frames  = test_single_video(test_loader, model, args)
     time_elapsed = time.time() - st
-    print(message + message_frames + "\n"+ message + message_second)
+    print(message + message_frames)
+    print(message + message_second)
     print('Test complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
 
     return message + message_frames
