@@ -2,6 +2,7 @@ from sklearn.metrics import auc, precision_recall_curve
 import numpy as np
 import torch
 import csv
+import os
 
 def test(dataloader, model, gt, args):
     with torch.no_grad():
@@ -69,22 +70,26 @@ def test_single_video(dataloader, model, args):
             message_frames = ""            
             message_second = ""            
 
-        # Create a list of dictionaries to store the data
-        data = []
-        data.append({
-            'video_id': "IDVIDEO",
-            'frame_number': pred_binary,
-            "violence_label": "1" if any(pred == 1 for pred in pred_binary) else "0",
-        })
+        if args.evaluate == 'true':
+            # Create a list of dictionaries to store the data
+            data = []
+            data.append({
+                'video_id': "IDVIDEO",
+                'frame_number': pred_binary,
+                "violence_label": "1" if any(pred == 1 for pred in pred_binary) else "0",
+            })
 
-        # Write the data to a CSV file
-        csv_file = 'inference.csv'
+            # Write the data to a CSV file
+            csv_file = 'inference.csv'
 
-        fieldnames = ['video_id', 'frame_number', 'violence_label']
-        with open(csv_file, 'w', newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(data)
+            fieldnames = ['video_id', 'frame_number', 'violence_label']
+            file_exists = os.path.isfile(csv_file)
+
+            with open(csv_file, 'a', newline='') as file:
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                if not file_exists:
+                    writer.writeheader()
+                writer.writerows(data)
             
         return message, message_second, message_frames
 

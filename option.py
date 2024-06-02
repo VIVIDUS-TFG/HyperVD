@@ -1,6 +1,7 @@
 import argparse
 
 parser = argparse.ArgumentParser(description='HyperVD')
+parser.add_argument('--evaluate', default='false', help='to infer a video or evaluate model metrics: (false or true)')
 parser.add_argument('--rgb-list', default='list/rgb.list', help='list of rgb features ')
 parser.add_argument('--flow-list', default='list/flow.list', help='list of flow features')
 parser.add_argument('--audio-list', default='list/audio.list', help='list of audio features')
